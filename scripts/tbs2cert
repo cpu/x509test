@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2016 Google Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@ Usage: tbs2cert tbscert.ascii privkey.pem
 from __future__ import print_function
 import sys
 import os
+import subprocess
 import os.path
 import re
 import getopt
@@ -281,9 +282,9 @@ def _main(argv):
     dgst_cmd = 'ascii2der -i %s | openssl dgst %s -sign %s' % (outname, dgst_opt, privkey)
     if verbose:
         print('Invoke: %s' % dgst_cmd, file=sys.stderr)
-    sig_bytes = os.popen(dgst_cmd).read()
+    sig_bytes = subprocess.Popen(dgst_cmd, shell=True, stdout=subprocess.PIPE).stdout.read()
     os.unlink(outname)
-    sig_hex = ''.join(['%02x' % ord(b) for b in sig_bytes])
+    sig_hex = ''.join(['%02x' % b for b in sig_bytes])
     # Now output ASCII full certificate
     print('SEQUENCE {')
     for line in lines:

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # Copyright 2017 Google Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +19,12 @@ import base64
 def der2pem(infile):
     data = infile.read()
     data64 = base64.b64encode(data)
-    print "-----BEGIN CERTIFICATE-----"
+    print("-----BEGIN CERTIFICATE-----")
     offset = 0
     stride = 64
     while offset < len(data64):
-        print data64[offset:offset+stride]
+        print(data64[offset:offset+stride])
         offset += stride
-    print "-----END CERTIFICATE-----"
+    print("-----END CERTIFICATE-----")
 
 der2pem(open(sys.argv[1], 'rb') if len(sys.argv) > 1 else sys.stdin)
